@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>Nighter</title>
+  </head>
+  <body>
+    <header class="header">
+      <span class="logo" aria-hidden="true">🌙</span>
+      <div class="titles">
+        <h1 class="title">Nighter</h1>
+        <p class="subtitle">Dark mode for any site</p>
+      </div>
+    </header>
+
+    <!-- Normal page: the controls -->
+    <main id="content" hidden>
+      <div class="row toggle-row">
+        <div class="row-text">
+          <span class="row-label" id="toggle-label">Dark mode</span>
+          <span class="row-host" id="host" title="">this site</span>
+        </div>
+        <label class="switch" id="switch" title="Toggle dark mode for this site">
+          <input type="checkbox" id="toggle" />
+          <span class="switch-ui"></span>
+        </label>
+      </div>
+
+      <p class="mode-note" id="mode-note" hidden>
+        🌗 This page already uses a dark theme — turn on to switch it to a
+        light one.
+      </p>
+
+      <div class="sliders">
+        <div class="slider-row">
+          <label for="brightness">
+            Brightness <span class="val" id="brightness-val">100%</span>
+          </label>
+          <input type="range" id="brightness" min="50" max="100" step="1" value="100" />
+        </div>
+        <div class="slider-row">
+          <label for="contrast">
+            Contrast <span class="val" id="contrast-val">100%</span>
+          </label>
+          <input type="range" id="contrast" min="70" max="110" step="1" value="100" />
+        </div>
+        <button class="reset" id="reset" type="button">Reset appearance</button>
+      </div>
+
+      <p class="hint">
+        Tip: press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> to toggle.
+      </p>
+    </main>
+
+    <!-- chrome:// pages, Web Store, local files Chrome blocks, etc. -->
+    <main id="unsupported" hidden>
+      <p class="unsupported-msg">Nighter can't run on this page.</p>
+      <p class="unsupported-sub">
+        Open a normal website and try again. Chrome blocks extensions on its
+        own system pages and the Web Store.
+      </p>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

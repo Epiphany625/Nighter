@@ -1,0 +1,50 @@
+/*
+ * Nighter — dark mode stylesheet
+ *
+ * Strategy: invert the whole document's luminance, then rotate the hue by
+ * 180deg so that colors (blues, greens, reds…) stay recognisable instead of
+ * becoming their photographic negative. Light backgrounds become dark, dark
+ * text becomes light — and contrast is preserved, which keeps text readable.
+ *
+ * Everything here is gated behind the `__dm-on` class that the content script
+ * adds to <html>. When the class is absent these rules do nothing, so it is
+ * safe to inject this file on every page.
+ *
+ * The brightness/contrast values are driven by CSS custom properties so the
+ * popup sliders can fine-tune comfort without re-injecting any CSS.
+ */
+
+html.__dm-on {
+  /* A solid light base so transparent regions also invert to a clean dark. */
+  background-color: #ffffff !important;
+
+  filter:
+    invert(1)
+    hue-rotate(180deg)
+    brightness(var(--dm-brightness, 100%))
+    contrast(var(--dm-contrast, 100%)) !important;
+}
+
+/*
+ * Re-invert "real" media so photos, videos and embedded content keep their
+ * original colors. Because a child's filter is applied before its parent's,
+ * a second invert+hue-rotate exactly cancels the page-level one, leaving the
+ * media looking normal (it still inherits the brightness/contrast dimming).
+ *
+ * Note: inline <svg> is intentionally NOT re-inverted — most inline SVGs are
+ * monochrome icons that should follow the (now light) text color.
+ */
+html.__dm-on img,
+html.__dm-on video,
+html.__dm-on canvas,
+html.__dm-on iframe,
+html.__dm-on embed,
+html.__dm-on object {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Escape hatches: let a page (or a power user) opt elements out of inversion. */
+html.__dm-on [data-nighter-skip],
+html.__dm-on .nighter-skip {
+  filter: none !important;
+}
